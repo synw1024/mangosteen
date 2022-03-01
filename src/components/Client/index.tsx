@@ -50,7 +50,7 @@ function ClientEditor({name, client}: IProps) {
     <div className={styles.client}>
       {name}:
       <div ref={divRef} />
-      <button onClick={onReceived}>receives from server ({waitingForReceiveNum} responses doesn't receive)</button>
+      <button className={styles.footerBtn} onClick={onReceived}>receives from server ({waitingForReceiveNum} responses doesn't receive)</button>
     </div>
   );
 }
