@@ -59,6 +59,7 @@
     "terser-webpack-plugin": "^5.2.5",
     "typescript": "^4.6.2",
     "util": "^0.12.4",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
@@ -90,7 +91,8 @@
   },
   "devDependencies": {
     "@types/ot": "0.0.5",
-    "@types/quill": "^2.0.9"
+    "@types/quill": "^2.0.9",
+    "@types/uuid": "^8.3.4"
   },
   "jest": {
     "roots": [

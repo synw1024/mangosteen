@@ -1,26 +1,17 @@
-import { useRef } from 'react';
-import Client, { IExposed } from './components/Client'
+import ClientEditor from './components/Client'
 import Server from './components/Server'
-import Delta from 'quill-delta'
+import Client from './components/Client/Client'
+
+const client1 = new Client(0)
+const client2 = new Client(0)
 
 function App() {
-  const client1Ref = useRef<IExposed>(null)
-  const client2Ref = useRef<IExposed>(null)
-
-  function onClient1Change(delta: Delta) {
-    client2Ref.current!.onReceived(delta)
-  }
-
-  function onClient2Change(delta: Delta) {
-    client1Ref.current!.onReceived(delta)
-  }
-
   return (
     <>
-      <Server />
+      <Server client1={client1} client2={client2} />
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <Client onChange={onClient1Change} ref={client1Ref} />
-        <Client onChange={onClient2Change} ref={client2Ref} />
+        <ClientEditor name="client1" client={client1} />
+        <ClientEditor name="client2" client={client2} />
       </div>
     </>
   )

@@ -1,5 +1,11 @@
 .server {
   width: 600px;
   height: 300px;
-  margin: 0 auto 36px;
+  margin: 0 auto 100px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
 }
