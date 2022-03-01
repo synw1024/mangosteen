@@ -333,6 +333,9 @@ module.exports = function (webpackEnv) {
           babelRuntimeRegenerator,
         ]),
       ],
+      fallback: {
+        util: require.resolve("util/")
+      }
     },
     module: {
       strictExportPresence: true,
