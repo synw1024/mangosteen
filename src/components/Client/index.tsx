@@ -11,7 +11,6 @@ interface IProps {
 
 function ClientEditor({name, client}: IProps) {
   const divRef = useRef<HTMLDivElement>(null)
-  const [quill, setQuill] = useState<Quill>()
 
   function onTextChange(delta: Delta, oldDelta: Delta, source: Sources) {
     if (source !== 'user') return
@@ -26,11 +25,12 @@ function ClientEditor({name, client}: IProps) {
         toolbar: false
       }
     })
+    client.setEditor(quill)
     quill.on('text-change', onTextChange);
-    setQuill(quill)
   }
 
   function onReceived() {
+    debugger
     if (!client.responseList.length) return
     const res = client.responseList.shift()
     if (res) {

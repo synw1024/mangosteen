@@ -36,7 +36,8 @@ function ServerEditor(props: IProps) {
   }
 
   function onReceivedClient1() {
-    if (!props.client1 || props.client1.synList.length === 0) return
+    debugger
+    if (!props.client1 || !props.client1.synList.length) return
 
     const { clientId, revision, delta } = props.client1.synList.shift() as ISyn
     server.received(clientId, revision, delta)
@@ -44,7 +45,8 @@ function ServerEditor(props: IProps) {
   }
 
   function onReceivedClient2() {
-    if (!props.client2 || props.client2.synList.length === 0) return
+    debugger
+    if (!props.client2 || !props.client2.synList.length) return
 
     const { clientId, revision, delta } = props.client2.synList.shift() as ISyn
     server.received(clientId, revision, delta)

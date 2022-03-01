@@ -1,6 +1,7 @@
 import Delta from 'quill-delta'
 import server from '../Server/Server'
 import { v4 as uuidv4 } from 'uuid';
+import Quill from 'quill';
 
 type ClientState = Synchronized | AwaitingConfirm | AwaitingWithBuffer
 
@@ -16,6 +17,7 @@ class Client {
   state: ClientState
   synList: ISyn[]
   responseList: (Delta | undefined)[]
+  editor?: Quill
   constructor(revision: number) {
     this.id = uuidv4()
     this.revision = revision
@@ -24,8 +26,16 @@ class Client {
     this.responseList = []
     server.on({
       clientId: this.id,
-      fn: this.applyServer.bind(this)
+      fn: this.onServerReceived.bind(this)
     })
+  }
+
+  setEditor(editor: Quill) {
+    this.editor = editor
+  }
+
+  onServerReceived(delta: Delta) {
+    this.responseList.push(delta)
   }
 
   setState(state: ClientState) {
@@ -55,7 +65,8 @@ class Client {
   }
 
   applyOperation(delta: Delta) {
-
+    if (!this.editor) return
+    this.editor.updateContents(delta)
   }
 }
 
@@ -86,8 +97,8 @@ class AwaitingConfirm {
   }
 
   applyServer(client: Client, delta: Delta) {
-    const prime1 = this.outstanding.transform(delta, true)
-    const prime2 = delta.transform(this.outstanding, true)
+    const prime2 = this.outstanding.transform(delta)
+    const prime1 = delta.transform(this.outstanding, true)
     client.applyOperation(prime2)
     return new AwaitingConfirm(prime1)
   };
@@ -111,11 +122,11 @@ class AwaitingWithBuffer {
   }
 
   applyServer(client: Client, delta: Delta) {
-    const prime1 = this.outstanding.transform(delta, true)
-    const prime2 = delta.transform(this.outstanding, true)
+    const prime2 = this.outstanding.transform(delta)
+    const prime1 = delta.transform(this.outstanding, true)
 
-    const prime3 = this.buffer.transform(prime2, true)
-    const prime4 = prime2.transform(this.buffer, true)
+    const prime4 = this.buffer.transform(prime2)
+    const prime3 = prime2.transform(this.buffer, true)
 
     client.applyOperation(prime4);
     return new AwaitingWithBuffer(prime1, prime3);
