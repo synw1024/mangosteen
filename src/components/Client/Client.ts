@@ -15,19 +15,29 @@ class Client {
   id: string
   revision: number
   state: ClientState
-  synList: ISyn[]
+  requestList: ISyn[]
   responseList: (Delta | undefined)[]
   editor?: Quill
+  responseNumDispatch?: React.Dispatch<React.SetStateAction<number>>
+  requestNumDispatch?: React.Dispatch<React.SetStateAction<number>>
   constructor(revision: number) {
     this.id = uuidv4()
     this.revision = revision
     this.state = new Synchronized()
-    this.synList = []
+    this.requestList = []
     this.responseList = []
     server.on({
       clientId: this.id,
       fn: this.onServerReceived.bind(this)
     })
+  }
+
+  setRequestNumDispatch(dispatch: React.Dispatch<React.SetStateAction<number>>) {
+    this.requestNumDispatch = dispatch
+  }
+
+  setResponseNumDispatch(dispatch: React.Dispatch<React.SetStateAction<number>>) {
+    this.responseNumDispatch = dispatch
   }
 
   setEditor(editor: Quill) {
@@ -36,6 +46,7 @@ class Client {
 
   onServerReceived(delta: Delta) {
     this.responseList.push(delta)
+    this.responseNumDispatch && this.responseNumDispatch(this.responseList.length)
   }
 
   setState(state: ClientState) {
@@ -57,11 +68,12 @@ class Client {
   }
 
   sendOperation(revision: number, delta: Delta) {
-    this.synList.push({
+    this.requestList.push({
       clientId: this.id,
       revision,
       delta
     })
+    this.requestNumDispatch && this.requestNumDispatch(this.requestList.length)
   }
 
   applyOperation(delta: Delta) {

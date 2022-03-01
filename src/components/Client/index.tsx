@@ -11,6 +11,7 @@ interface IProps {
 
 function ClientEditor({name, client}: IProps) {
   const divRef = useRef<HTMLDivElement>(null)
+  const [waitingForReceiveNum, setWaitingForReceiveNum] = useState(0)
 
   function onTextChange(delta: Delta, oldDelta: Delta, source: Sources) {
     if (source !== 'user') return
@@ -25,14 +26,15 @@ function ClientEditor({name, client}: IProps) {
         toolbar: false
       }
     })
+    client.setResponseNumDispatch(setWaitingForReceiveNum)
     client.setEditor(quill)
     quill.on('text-change', onTextChange);
   }
 
   function onReceived() {
-    debugger
     if (!client.responseList.length) return
     const res = client.responseList.shift()
+    client.responseNumDispatch && client.responseNumDispatch(client.responseList.length)
     if (res) {
       client.applyServer(res)
     } else {
@@ -48,7 +50,7 @@ function ClientEditor({name, client}: IProps) {
     <div className={styles.client}>
       {name}:
       <div ref={divRef} />
-      <button onClick={onReceived}>receives from server</button>
+      <button onClick={onReceived}>receives from server ({waitingForReceiveNum} responses doesn't receive)</button>
     </div>
   );
 }
