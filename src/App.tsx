@@ -1,11 +1,9 @@
-import ot from 'ot'
+import Client from './components/Client'
 
 function App() {
   return (
-    <div>
-      
-    </div>
-  );
+    <Client />
+  )
 }
 
 export default App;
