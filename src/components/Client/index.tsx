@@ -22,9 +22,6 @@ function ClientEditor({name, client}: IProps) {
   function init() {
     const quill = new Quill(divRef.current!, {
       theme: 'snow',
-      modules: {
-        toolbar: false
-      }
     })
     client.setResponseNumDispatch(setWaitingForReceiveNum)
     client.setEditor(quill)
