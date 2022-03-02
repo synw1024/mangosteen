@@ -15,7 +15,8 @@ class Client {
   }
 
   connect() {
-    const socket = io(`${window.location.origin}/lemon`)
+    const url = `${window.location.origin}/lemon`
+    const socket = io(url)
     socket.on('connect', this.onConnect.bind(this));
     socket.on('serverAck', this.serverAck.bind(this));
     socket.on('serverPush', this.applyServer.bind(this));
@@ -27,15 +28,11 @@ class Client {
   onConnect() {
     if (!this.socket) return
 
-    
-  }
-
-  onEvents(data: any) {
-    console.log('event', data);
+    console.log('connected')
   }
 
   onException(data: any) {
-    console.log('event', data);
+    console.log('exception:', data);
   }
 
   onDisconnect() {
