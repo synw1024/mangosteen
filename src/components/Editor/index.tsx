@@ -8,7 +8,7 @@ interface IProps {
   client: Client
 }
 
-function Editor({client}: IProps) {
+function Editor({ client }: IProps) {
   const divRef = useRef<HTMLDivElement>(null)
 
   function onTextChange(delta: Delta, oldDelta: Delta, source: Sources) {
@@ -26,23 +26,18 @@ function Editor({client}: IProps) {
     client.connect()
   }
 
-  function onReceived() {
-    // if (!client.responseList.length) return
-    // const res = client.responseList.shift()
-    // client.responseNumDispatch && client.responseNumDispatch(client.responseList.length)
-    // if (res) {
-    //   client.applyServer(res)
-    // } else {
-    //   client.serverAck()
-    // }
-  }
-
   useLayoutEffect(() => {
     init()
   }, [])
 
   return (
-    <div ref={divRef} className={styles.client} />
+    <>
+      <button className={styles.resetBtn}>
+        reset server state (there is some bug now, if the document unsynchronized, click it to reset server state, and refresh browser)
+      </button>
+      <div ref={divRef} className={styles.client} />
+    </>
+
   );
 }
 
