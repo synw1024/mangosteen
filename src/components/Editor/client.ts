@@ -15,7 +15,7 @@ class Client {
   }
 
   connect() {
-    const socket = process.env.NODE_ENV === 'development' ? io('localhost:3000') : io()
+    const socket = process.env.NODE_ENV === 'development' ? io('192.168.0.100:3000') : io()
     socket.on('connect', this.onConnect.bind(this));
     socket.on('serverAck', this.serverAck.bind(this));
     socket.on('serverPush', this.applyServer.bind(this));
@@ -38,13 +38,15 @@ class Client {
   }
 
   onClientConnented(deltaList: Delta[]) {
-    if (this.revision) return
-
-    this.revision = deltaList.length
-    deltaList.forEach(d => {
-      const delta = new Delta(d)
-      this.applyOperation(delta)
-    })
+    if (this.revision) {
+      
+    } else {
+      this.revision = deltaList.length
+      deltaList.forEach(d => {
+        const delta = new Delta(d)
+        this.applyOperation(delta)
+      })
+    }
   }
 
   setEditor(editor: Quill) {
@@ -72,7 +74,7 @@ class Client {
 
   sendOperation(revision: number, delta: Delta) {
     if (!this.socket) return
-    
+
     this.socket!.emit('clientSend', [revision, delta])
   }
 
