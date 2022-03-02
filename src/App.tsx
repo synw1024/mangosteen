@@ -1,11 +1,12 @@
-import ClientEditor from './components/Client'
-import Client from './components/Client/Client'
+import Editor from './components/Editor'
+import Client from './components/Editor/client'
+
 
 const client = new Client(0)
 
 function App() {
   return (
-    <ClientEditor name="client" client={client} />
+    <Editor client={client} />
   )
 }
 
