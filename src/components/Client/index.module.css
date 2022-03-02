@@ -1,8 +1,3 @@
 .client {
-  width: 600px;
-  height: 300px;
-}
-
-.footerBtn {
-  margin-top: 8px;
+  height: calc(100% - 42px);
 }

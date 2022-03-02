@@ -9,7 +9,7 @@ interface IProps {
   client: Client
 }
 
-function ClientEditor({name, client}: IProps) {
+function ClientEditor({ name, client }: IProps) {
   const divRef = useRef<HTMLDivElement>(null)
   const [waitingForReceiveNum, setWaitingForReceiveNum] = useState(0)
 
@@ -44,11 +44,7 @@ function ClientEditor({name, client}: IProps) {
   }, [])
 
   return (
-    <div className={styles.client}>
-      {name}:
-      <div ref={divRef} />
-      <button className={styles.footerBtn} onClick={onReceived}>receives from server ({waitingForReceiveNum} responses doesn't receive)</button>
-    </div>
+    <div ref={divRef} className={styles.client} />
   );
 }
 

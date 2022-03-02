@@ -90,7 +90,6 @@
     ]
   },
   "devDependencies": {
-    "@types/ot": "0.0.5",
     "@types/quill": "^2.0.9",
     "@types/uuid": "^8.3.4"
   },
