@@ -15,18 +15,17 @@ class Client {
   }
 
   connect() {
-    const socket = io()
+    const socket = io('localhost:3000')
     socket.on('connect', this.onConnect.bind(this));
     socket.on('serverAck', this.serverAck.bind(this));
     socket.on('serverPush', this.applyServer.bind(this));
+    socket.on('clientConnented', this.onClientConnented.bind(this))
     socket.on('exception', this.onException.bind(this));
     socket.on('disconnect', this.onDisconnect.bind(this));
     this.socket = socket
   }
 
   onConnect() {
-    if (!this.socket) return
-
     console.log('connected')
   }
 
@@ -36,6 +35,16 @@ class Client {
 
   onDisconnect() {
     console.log('Disconnected');
+  }
+
+  onClientConnented(deltaList: Delta[]) {
+    if (this.revision) return
+
+    this.revision = deltaList.length
+    deltaList.forEach(d => {
+      const delta = new Delta(d)
+      this.applyOperation(delta)
+    })
   }
 
   setEditor(editor: Quill) {
@@ -62,8 +71,8 @@ class Client {
   }
 
   sendOperation(revision: number, delta: Delta) {
-    if (!this.socket) this.connect()
-
+    if (!this.socket) return
+    
     this.socket!.emit('clientSend', [revision, delta])
   }
 
