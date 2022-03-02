@@ -16,6 +16,7 @@ class Client {
 
   connect() {
     const url = `${window.location.origin}/lemon`
+    console.log('try to connect: ' + url)
     const socket = io(url)
     socket.on('connect', this.onConnect.bind(this));
     socket.on('serverAck', this.serverAck.bind(this));
