@@ -15,7 +15,7 @@ class Client {
   }
 
   connect() {
-    const socket = io('localhost:3000')
+    const socket = io()
     socket.on('connect', this.onConnect.bind(this));
     socket.on('serverAck', this.serverAck.bind(this));
     socket.on('serverPush', this.applyServer.bind(this));
