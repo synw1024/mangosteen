@@ -31,13 +31,7 @@ function Editor({ client }: IProps) {
   }, [])
 
   return (
-    <>
-      <button className={styles.resetBtn}>
-        reset server state (there is some bug now, if the document unsynchronized, click it to reset server state, and refresh browser)
-      </button>
-      <div ref={divRef} className={styles.client} />
-    </>
-
+    <div ref={divRef} className={styles.client} />
   );
 }
 
