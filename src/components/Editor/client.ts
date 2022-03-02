@@ -15,7 +15,7 @@ class Client {
   }
 
   connect() {
-    const socket = io()
+    const socket = io(`${window.location.origin}/lemon`)
     socket.on('connect', this.onConnect.bind(this));
     socket.on('serverAck', this.serverAck.bind(this));
     socket.on('serverPush', this.applyServer.bind(this));
