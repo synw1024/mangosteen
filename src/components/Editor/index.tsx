@@ -3,6 +3,7 @@ import Quill, { Sources } from 'quill'
 import Delta from 'quill-delta'
 import styles from './index.module.css'
 import Client from './client'
+import {v4 as uuidv4} from 'uuid'
 
 interface IProps {
   client: Client
@@ -14,7 +15,10 @@ function Editor({ client }: IProps) {
   function onTextChange(delta: Delta, oldDelta: Delta, source: Sources) {
     if (source !== 'user') return
 
-    client.applyClient(delta)
+    client.applyClient({
+      id: uuidv4(),
+      delta
+    })
   }
 
   function init() {
