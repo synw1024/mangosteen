@@ -46,6 +46,7 @@ class Client {
 
   syncOfflineServerDeltas(deltaList: MyDelta[]) {
     const list = deltaList.slice(this.revision)
+    if (!list.length) return
     let delta = new Delta(list[0].delta)
     for (let i = 1; i < list.length; i++) {
       delta = delta.compose(new Delta(list[i].delta))
