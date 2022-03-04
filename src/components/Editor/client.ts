@@ -112,7 +112,6 @@ class Client {
   }
 
   sendOperation(revision: number, delta: MyDelta) {
-    console.log(revision, delta)
     this.socket!.emit('clientSend', [this.id, revision, delta])
   }
 
